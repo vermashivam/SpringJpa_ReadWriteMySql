@@ -62,23 +62,30 @@ public class PersonController {
         }
         return "findperson";
     }
-    @GetMapping("update")
-    public String updatePerson(){
-        System.out.println("update to updateperson html");
+    @GetMapping("/update")
+    public String toUpdateForm(){
         return "updateperson";
     }
-    @PostMapping("/updatePerson")
+    @PostMapping("updatePerson")
+    public String updatePerson(@RequestParam int id , String name, int age){
+        System.out.println("update to updateperson ");
+
+        return this.updatePerson(new Person(id,name,age));
+    }
     public String updatePerson(Person person){
         System.out.println("UPDATING TO" + person.getAge()+" : "+person.getName() + " : "+person.getPid());
-        //personRepository.save(person);
+        personRepository.save(person);
         //updatePersonPut(person);
         return "updateperson";
     }
-    @PutMapping("updatepersonput")
-    public void updatePersonPut(Person person){
-        System.out.println("UPDATING Put TO" + person.getAge()+" : "+person.getName() + " : "+person.getPid());
-        personRepository.save(person);
+    @GetMapping("/delete")
+    public String deleteHtmlForm (){
+        return "deleteperson";
     }
-
+    @GetMapping("/deleteperson")
+    public String deleteperson(@RequestParam int id){
+        personRepository.deleteById(id);
+        return "deleteperson";
+    }
 
 }
